@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Drawer Button -->
+<button id="menuBtn" class="menu-btn">☰ Menu</button>
+
+<!-- Drawer -->
+<div id="drawer" class="drawer">
+  <a href="#">🏠 Home</a>
+  <a href="#">🛍️ Shop</a>
+  <a href="#">📞 Contact</a>
+  <a href="#">💬 About</a>
+</div>
+
+<title>Dreamy Store | Portfolio</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    color: #222;
+    background: linear-gradient(135deg, #f9e0ff, #d1e8ff, #ffe8e8, #e3ffd1);
+    background-size: 400% 400%;
+    animation: dreamyShift 10s ease infinite;
+    transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
+  }
+
+  @keyframes dreamyShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  header {
+    text-align: center;
+    padding: 50px 20px;
+    color: #000;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    font-size: 2.2em;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .toggle-theme {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.4);
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+    z-index: 10;
+  }
+
+  /* Main Content */
+  .container {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 20px;
+    animation: fadeIn 1.5s ease both;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .intro h2 {
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 10px;
+  }
+
+  .intro p {
+    color: #000;
+    font-size: 1.1em;
+  }
+
+  /* Product Cards */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.7);
+    border-radius: 20px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  }
+
+  .card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+
+  .card h3 {
+    margin: 0 0 10px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .card p {
+    color: #444;
+    margin-bottom: 20px;
+  }
+
+  .card a {
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #c47eff, #85c9ff);
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 0.95em;
+    transition: 0.3s;
+  }
+
+  .card a:hover {
+    background: linear-gradient(135deg, #85c9ff, #c47eff);
+  }
+
+  /* Social Links */
+  .socials {
+    text-align: center;
+    margin-top: 70px;
+  }
+
+  .socials a {
+    display: inline-block;
+    margin: 0 12px;
+    background: linear-gradient(135deg, #c47eff, #85c9ff);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 0.95em;
+    transition: 0.3s;
+  }
+
+  .socials a:hover {
+    background: linear-gradient(135deg, #85c9ff, #c47eff);
+  }
+
+  /* Toast Notification */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 0.95em;
+    animation: fadeInOut 2s ease;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 10px); }
+    10% { opacity: 1; transform: translate(-50%, 0); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -10px); }
+  }
+
+  /* Light Mode */
+  body.light-mode {
+    color: #111;
+    background: linear-gradient(135deg, #fff0f5, #e0f7ff, #f9f9e3, #ffe3e3);
+    background-size: 400% 400%;
+    animation: dreamyShift 25s ease infinite;
+  }
+
+  body.light-mode header {
+    background: rgba(255,255,255,0.3);
+    color: #000;
+  }
+  
+  body.light-mode .toggle-theme {
+    background: rgba(0,0,0,0.3);
+    color: #fff;
+  }
+  
+  footer {
+  background-color: #111;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 40px 0;
+  font-size: 0.9em;
+  margin-top: 60px;
+  }
+
+  footer a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0.5px;
+  }
+
+  footer a:hover {
+  color: #1abc9c;
+  text-decoration: underline;
+  }
+  
+  .drawer {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  padding-top: 60px;
+  transition: left 0.4s ease;
+  z-index: 1000;
+  background: linear-gradient(135deg,
+  rgba(249, 224, 255, 0.3),
+  rgba(209, 232, 255, 0.3),
+  rgba(255, 232, 232, 0.3),
+  rgba(227, 255, 209, 0.3));
+  backdrop-filter: blur(20px);
+  background-size: 400% 400%;
+  animation: dreamyShift 10s infinite;
+  }
+
+  .drawer a {
+  display: block;
+  padding: 12px 24px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  }
+
+  .drawer a:hover {
+  background: rgba(255,255,255,0.4);
+  border-radius: 8px;
+  }
+
+  .menu-btn {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  /*background: rgba(255,255,255,0.5);*/
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 50px rgba(0,0,0,0.2);
+  padding: 8px 12px;
+  cursor: pointer;
+  z-index: 1100;
+  /*backdrop-filter: blur(10px);*/
+  font-size: 16px;
+  background: linear-gradient(135deg,
+  rgba(249, 224, 255, 0.3),
+  rgba(209, 232, 255, 0.3),
+  rgba(255, 232, 232, 0.3),
+  rgba(227, 255, 209, 0.3));
+  backdrop-filter: blur(20px);
+  background-size: 300% 300%;
+  animation: dreamyShift 10s infinite;
+  transition: background 0.3s;
+  }
+
+  .menu-btn:hover {
+  /*background: rgba(255,255,255,0.8);*/
+  }
+
+  @keyframes dreamy {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+  }
+
+</style>
+</head>
+<body>
+
+<header>Sining Meraki</header>
+
+<div class="container">
+  <div class="intro">
+    <h2>Welcome to Our Dreamy Collection</h2>
+    <p>Pastel-inspired fashion and lifestyle products that capture calm and creativity.</p>
+  </div>
+
+  <div class="products">
+    <div class="card">
+      <img src="project1.jpeg" alt="Charm">
+      <div class="card-content">
+        <h3>Wearable Charms</h3>
+        <p>Wearable charms with flexible grasp for tumblers, bags, wallets, and others. Fully customizable for whatever charms you like!</p>
+        <a href="#">View Product</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="project2.jpeg" alt="Bracelets">
+      <div class="card-content">
+        <h3>Bracelets</h3>
+        <p>Fill your wrist with patterned, beaded bracelets! One size fits all for every wrist yet still keeps a snug fit and alluring design.</p>
+        <a href="#">View Product</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="project3.jpeg" alt="Charms">
+      <div class="card-content">
+        <h3>Single-Line Charms</h3>
+        <p>A fixed-design, single-line set of charms for a lighter yet equally stylish display.</p>
+        <a href="#">View Product</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="socials">
+    <a href="https://facebook.com/" target="_blank">Facebook</a>
+    <a href="https://instagram.com/" target="_blank">Instagram</a>
+  </div>
+</div>
+
+<script>
+function toggleTheme() {
+  document.body.classList.toggle("light-mode");
+  showToast(document.body.classList.contains("light-mode") ? "Light Mode Enabled 🌞" : "Dream Mode Enabled 🌙");
+}
+
+function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
+}
+
+  const menuBtn = document.getElementById("menuBtn");
+  const drawer = document.getElementById("drawer");
+  let drawerOpen = false;
+
+  menuBtn.addEventListener("click", function() {
+    drawerOpen = !drawerOpen;
+    drawer.style.left = drawerOpen ? "0" : "-250px";
+  });
+
+</script>
+
+<footer>
+    <p>Connect with us:</p>
+    <div class="social-links">
+      <a href="https://www.facebook.com/profile.php?id=61572610372146" target="_blank">
+        <img src="Facebook-Logo.png" alt="Facebook" width="15" height="15" style="vertical-align: middle; margin-right: 5px;">Facebook</a> | 
+      <a href="https://shopee.ph/shop/359281701?uls_trackid=5411fjb1012g&utm_campaign=-&utm_content=product&utm_medium=affiliates&utm_source=an_13312780020" target="_blank">
+        <img src="shopee-logo.png" alt="Shopee" width="15" height="15" style="vertical-align: middle; margin-right: 5px;">Shopee</a>
+      <!-- You can add more like LinkedIn or X -->
+    </div>
+    <p style="margin-top:10px;">© 2025 Your Business Name. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
+

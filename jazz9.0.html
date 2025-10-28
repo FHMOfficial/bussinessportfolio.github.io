@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Acme Consulting — Professional Business Portfolio</title>
+<meta name="description" content="Acme Consulting - Strategic business solutions, digital products, and design. Professional portfolio website (single-file HTML)."/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23005f73'/%3E%3Ctext x='50' y='57' font-size='45' text-anchor='middle' fill='white' font-family='Arial'%3EA%3C/text%3E%3C/svg%3E">
+<style>
+  /* Reset & base */
+  :root{
+    --bg:#0f1720; --panel:#0b1220; --muted:#9aa7b2; --accent:#00bcd4; --glass: rgba(255,255,255,0.04);
+    --card: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    --radius:14px; --glass-blur:8px; --maxw:1200px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(0,188,212,0.04), transparent),
+                radial-gradient(1000px 500px at 90% 90%, rgba(255,255,255,0.02), transparent),
+                var(--bg);
+    color:#e8eef2;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.45;
+  }
+
+  /* Layout */
+  .wrap{max-width:var(--maxw);margin:28px auto;padding:24px}
+  header{position:sticky;top:12px;z-index:40;backdrop-filter: blur(6px);background: linear-gradient(180deg, rgba(11,17,32,0.6), rgba(11,17,32,0.42)); padding:10px;border-radius:16px}
+  .nav{display:flex;align-items:center;gap:20px;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+  .logo{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#007991);box-shadow:0 8px 18px rgba(0,0,0,0.6)}
+  .logo strong{font-size:18px}
+  nav ul{display:flex;gap:12px;list-style:none;margin:0;padding:0;align-items:center}
+  nav a{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:600;font-size:14px}
+  nav a:hover, nav a:focus{color:white;background:var(--glass)}
+  .cta{background:linear-gradient(90deg,var(--accent),#00aab8);color:#001517;padding:10px 14px;border-radius:10px;font-weight:700}
+  .controls{display:flex;gap:8px;align-items:center}
+
+  /* Hero */
+  .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:22px}
+  .hero-card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow: 0 10px 30px rgba(3,10,18,0.6);backdrop-filter: blur(var(--glass-blur))}
+  .hero h1{margin:0;font-size:32px;letter-spacing:-0.6px}
+  .hero p.lead{color:var(--muted);margin:12px 0 18px}
+  .actions{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:700}
+  .btn.primary{background:linear-gradient(90deg,var(--accent),#00aab8);color:#002026}
+  .btn.ghost{border:1px solid rgba(255,255,255,0.06);color:var(--muted);background:transparent}
+  .skills{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .pill{background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
+
+  /* Summary panel (right) */
+  .summary{padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow: inset 0 -2px 12px rgba(0,0,0,0.4)}
+  .stat-grid{display:flex;gap:12px;flex-wrap:wrap}
+  .stat{flex:1;min-width:110px;padding:14px;border-radius:12px;background:rgba(255,255,255,0.02);text-align:center}
+  .stat b{display:block;font-size:20px}
+  .small{color:var(--muted);font-size:13px;margin-top:6px}
+
+  /* Sections */
+  section{margin-top:34px}
+  h2.section{margin:0 0 16px;font-size:20px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+
+  /* Services */
+  .service{background:var(--panel);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(1,6,12,0.6)}
+  .service h3{margin:6px 0 6px}
+  .service p{color:var(--muted);margin:0;font-size:14px}
+
+  /* Portfolio */
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .filter-btn{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);cursor:pointer}
+  .filter-btn.active{background:linear-gradient(90deg,var(--accent),#00aab8);color:#001517;border:none}
+  .portfolio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+  .proj{position:relative;border-radius:12px;overflow:hidden;min-height:160px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));cursor:pointer;transition:transform .28s}
+  .proj:hover{transform:translateY(-6px)}
+  .proj .meta{position:absolute;left:12px;bottom:12px;color:white;z-index:3}
+  .proj .meta h4{margin:0;font-size:16px}
+  .proj .meta p{margin:4px 0 0;font-size:13px;color:rgba(255,255,255,0.88)}
+  .proj .thumb{position:absolute;inset:0;mix-blend-mode:overlay;opacity:.12;background-size:cover;background-position:center}
+
+  /* Modal / Lightbox */
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;z-index:80}
+  .modal.open{display:flex}
+  .modal .panel{width:100%;max-width:920px;background:var(--panel);border-radius:12px;padding:22px;box-shadow:0 30px 60px rgba(0,0,0,0.7);overflow:auto;max-height:86vh}
+  .modal .close{position:absolute;right:30px;top:30px;background:rgba(255,255,255,0.03);border-radius:10px;padding:8px}
+
+  /* Case studies */
+  .case{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:stretch}
+  .case .case-left{padding:18px;background:var(--card);border-radius:12px}
+  .metrics{display:flex;gap:12px;flex-wrap:wrap}
+  .metric{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;text-align:center;min-width:120px}
+  .metric b{display:block;font-size:18px}
+
+  /* Team */
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+  .member{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));text-align:center}
+  .avatar{width:84px;height:84px;border-radius:999px;margin:0 auto 12px;display:grid;place-items:center;background:linear-gradient(180deg,#0fb3bf,#005f73);font-weight:800}
+
+  /* Testimonials carousel (simple) */
+  .carousel{position:relative;overflow:hidden;border-radius:12px;padding:18px;background:var(--panel)}
+  .carousel-track{display:flex;gap:18px;transition:transform .45s ease}
+  .test{min-width:260px;padding:12px;background:rgba(255,255,255,0.02);border-radius:10px}
+
+  /* Contact */
+  .contact-grid{display:grid;grid-template-columns:1fr 340px;gap:18px}
+  form input, form textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+  form label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+  .form-row{margin-bottom:12px}
+  .note{font-size:13px;color:var(--muted)}
+
+  /* Footer */
+  footer{margin-top:28px;padding:20px;border-radius:12px;background:rgba(255,255,255,0.02);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+
+  /* Responsive */
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr}
+    .case{grid-template-columns:1fr}
+    .summary {order:2}
+  }
+  @media (max-width:560px){
+    nav ul{display:none}
+    .hero h1{font-size:24px}
+    .wrap{padding:16px;margin:14px}
+  }
+
+  /* Tiny focus styles */
+  a:focus,button:focus,input:focus,textarea:focus{outline:3px solid rgba(0,188,212,0.14);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+  <header aria-label="Top navigation">
+    <div class="nav">
+      <a href="#top" class="brand" aria-label="Acme Consulting home">
+        <div class="logo" aria-hidden="true"><strong>A</strong></div>
+        <div>
+          <div style="font-weight:800">Acme Consulting</div>
+          <div style="font-size:12px;color:var(--muted)">Strategy • Design • Growth</div>
+        </div>
+      </a>
+
+      <nav role="navigation" aria-label="Main">
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#case-studies">Case Studies</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="controls" role="group" aria-label="Controls">
+        <button class="btn ghost" id="themeToggle" title="Toggle theme (visual accent)">Theme</button>
+        <a class="btn cta" id="downloadResume">Download Resume</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-card" id="hero">
+      <h1 id="hero-heading">We help businesses grow with strategy, design, and product engineering.</h1>
+      <p class="lead">Acme Consulting delivers measurable results for startups and enterprises: product design, digital transformation, and growth marketing rooted in data.</p>
+
+      <div class="actions">
+        <a href="#portfolio" class="btn primary">View Work</a>
+        <a href="#contact" class="btn ghost">Get in touch</a>
+        <button class="btn ghost" id="demoBtn">Request a demo</button>
+      </div>
+
+      <div class="skills" aria-hidden="false" style="margin-top:16px">
+        <span class="pill">Product Strategy</span>
+        <span class="pill">UX/UI Design</span>
+        <span class="pill">Data & Analytics</span>
+        <span class="pill">Engineering</span>
+        <span class="pill">Growth Marketing</span>
+      </div>
+
+      <p class="note" style="margin-top:14px">Trusted by teams globally — remote-first with on-site consulting when needed.</p>
+    </div>
+
+    <aside class="summary" aria-labelledby="summary-title" role="region">
+      <h3 id="summary-title" style="margin:0 0 10px">Snapshot</h3>
+      <div class="stat-grid">
+        <div class="stat"><b>8+</b><div class="small">Years experience</div></div>
+        <div class="stat"><b>120+</b><div class="small">Projects delivered</div></div>
+        <div class="stat"><b>40%</b><div class="small">Avg. growth for clients</div></div>
+      </div>
+
+      <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:16px 0;border-radius:2px">
+
+      <div>
+        <strong>Core Expertise</strong>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <div style="display:flex;justify-content:space-between">
+            <div style="color:var(--muted)">Strategy</div><div style="font-weight:800">End-to-end</div>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <div style="color:var(--muted)">Design</div><div style="font-weight:800">Human-centered</div>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <div style="color:var(--muted)">Engineering</div><div style="font-weight:800">Scalable</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" aria-labelledby="services-title">
+    <h2 class="section" id="services-title">Services</h2>
+    <div class="cards">
+      <article class="service" aria-labelledby="s1">
+        <h3 id="s1">Product Strategy</h3>
+        <p>Roadmapping, market research, opportunity sizing, and go-to-market plans tailored to your business goals.</p>
+      </article>
+
+      <article class="service" aria-labelledby="s2">
+        <h3 id="s2">UX / UI Design</h3>
+        <p>User research, wireframing, high-fidelity design, and interactive prototypes that convert.</p>
+      </article>
+
+      <article class="service" aria-labelledby="s3">
+        <h3 id="s3">Engineering & Architecture</h3>
+        <p>Backend, frontend, mobile and cloud architecture focused on performance, security, and maintainability.</p>
+      </article>
+
+      <article class="service" aria-labelledby="s4">
+        <h3 id="s4">Growth & Analytics</h3>
+        <p>Data-driven acquisition, retention, A/B testing, and measurement frameworks for sustainable growth.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio" aria-labelledby="portfolio-title">
+    <h2 class="section" id="portfolio-title">Selected Work</h2>
+
+    <div class="filters" role="tablist" aria-label="Portfolio filters">
+      <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
+      <button class="filter-btn" data-filter="product" role="tab">Product</button>
+      <button class="filter-btn" data-filter="design" role="tab">Design</button>
+      <button class="filter-btn" data-filter="engineering" role="tab">Engineering</button>
+      <button class="filter-btn" data-filter="growth" role="tab">Growth</button>
+    </div>
+
+    <div class="portfolio-grid" id="portfolioGrid">
+      <!-- Project 1 -->
+      <div class="proj" tabindex="0" data-tags="product design" data-title="AlphaPay" data-desc="A mobile-first payments product enabling micro-merchants to accept payments and track sales." data-role="product" style="background:linear-gradient(135deg,#0fb3bf 0%, #007991 100%);">
+        <div class="thumb" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 500%22><rect width=%22800%22 height=%22500%22 fill=%22%23005f73%22/><g fill=%22%23ffffff22 opacity=%220.12%22><circle cx=%22200%22 cy=%22150%22 r=%22120%22/><rect x=%22460%22 y=%22130%22 width=%22250%22 height=%22180%22 rx=%2230%22/></g></svg>');"></div>
+        <div class="meta">
+          <h4>AlphaPay</h4>
+          <p>Payments product</p>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="proj" tabindex="0" data-tags="design" data-title="Nimbus Dashboard" data-desc="Design system and analytics dashboard for an enterprise SaaS product. Improved usability and reduced user error by 32%." data-role="design" style="background:linear-gradient(135deg,#8a2be2,#4b6bff);">
+        <div class="thumb" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 500%22><rect width=%22800%22 height=%22500%22 fill=%22%234b6bff%22/><g fill=%22%23ffffff22 opacity=%220.08%22><rect x=%22150%22 y=%22120%22 width=%22480%22 height=%2280%22 rx=%2210%22/></g></svg>');"></div>
+        <div class="meta">
+          <h4>Nimbus Dashboard</h4>
+          <p>Design System</p>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="proj" tabindex="0" data-tags="engineering product" data-title="FleetOps" data-desc="Realtime fleet tracking with route optimization and low-latency sync across devices." data-role="engineering" style="background:linear-gradient(135deg,#00b09b,#96c93d);">
+        <div class="thumb" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 500%22><rect width=%22800%22 height=%22500%22 fill=%22%2300b09b%22/><g fill=%22%23ffffff22 opacity=%220.09%22><path d=%22M120 360 Q220 200 360 320 T640 300%22/></g></svg>');"></div>
+        <div class="meta">
+          <h4>FleetOps</h4>
+          <p>Logistics platform</p>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="proj" tabindex="0" data-tags="growth" data-title="MarketLift" data-desc="Growth marketing program for a fintech startup — 3x MRR in 9 months with targeted lifecycle campaigns." data-role="growth" style="background:linear-gradient(135deg,#ff7e5f,#feb47b);">
+        <div class="thumb" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 500%22><rect width=%22800%22 height=%22500%22 fill=%22%23ff7e5f%22/><g fill=%22%23ffffff22 opacity=%220.07%22><circle cx=%22580%22 cy=%22180%22 r=%22110%22/></g></svg>');"></div>
+        <div class="meta">
+          <h4>MarketLift</h4>
+          <p>Growth program</p>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="proj" tabindex="0" data-tags="design engineering" data-title="Atlas Maps" data-desc="Offline-first mapping library with custom vector tiles and performant rendering for mobile apps." data-role="engineering" style="background:linear-gradient(135deg,#3a1c71,#d76d77);">
+        <div class="thumb" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 500%22><rect width=%22800%22 height=%22500%22 fill=%22%233a1c71%22/><g fill=%22%23ffffff22 opacity=%220.06%22><rect x=%22400%22 y=%22140%22 width=%22200%22 height=%22100%22 rx=%2216%22/></g></svg>');"></div>
+        <div class="meta">
+          <h4>Atlas Maps</h4>
+          <p>Mapping SDK</p>
+        </div>
+      </div>
+
+      <!-- Project 6 -->
+      <div class="proj" tabindex="0" data-tags="product growth" data-title="EduFlex" data-desc="Subscription-based education platform — increased retention with microlearning features." data-role="product" style="background:linear-gradient(135deg,#11998e,#38ef7d);">
+        <div class="thumb" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 500%22><rect width=%22800%22 height=%22500%22 fill=%22%2311998e%22/><g fill=%22%23ffffff22 opacity=%220.05%22><circle cx=%22280%22 cy=%22220%22 r=%22100%22/></g></svg>');"></div>
+        <div class="meta">
+          <h4>EduFlex</h4>
+          <p>Edtech platform</p>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:12px;color:var(--muted)">Click any project to read more.</p>
+  </section>
+
+  <!-- Modal Lightbox for project details -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="panel" role="document" aria-labelledby="modalTitle">
+      <button class="close" id="modalClose" aria-label="Close project details">✕</button>
+      <h3 id="modalTitle">Project title</h3>
+      <p id="modalDesc" style="color:var(--muted)">Project description</p>
+
+      <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px">
+          <strong>Role</strong>
+          <p class="small" id="modalRole">Design & Engineering</p>
+        </div>
+        <div style="flex:1;min-width:220px">
+          <strong>Timeline</strong>
+          <p class="small">4 months</p>
+        </div>
+        <div style="flex:1;min-width:220px">
+          <strong>Outcome</strong>
+          <p class="small" id="modalOutcome">Improved KPIs</p>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <strong>Key deliverables</strong>
+        <ul id="modalDeliverables">
+          <li>User flows & prototypes</li>
+          <li>Design system</li>
+          <li>Cloud APIs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASE STUDIES -->
+  <section id="case-studies" aria-labelledby="cs-title">
+    <h2 class="section" id="cs-title">Case Studies</h2>
+
+    <article class="case" aria-labelledby="case1-title">
+      <div class="case-left">
+        <h3 id="case1-title">How AlphaPay won micro-merchant adoption</h3>
+        <p class="small" style="color:var(--muted)">Problem: Low adoption among small sellers. Solution: Simplified onboarding, offline payments, and merchant analytics.</p>
+        <p style="margin-top:10px">We executed a three-phase program: research & validation (5 weeks), product design and prototype (8 weeks), and pilot + scale (12 weeks). The pilot increased daily transactions by 58% and merchant retention by 41%.</p>
+
+        <div class="metrics" style="margin-top:12px">
+          <div class="metric"><b>58%</b><div class="small">Increase in transactions</div></div>
+          <div class="metric"><b>41%</b><div class="small">Retention uplift</div></div>
+          <div class="metric"><b>60%</b><div class="small">Reduction in onboarding time</div></div>
+        </div>
+      </div>
+
+      <div style="padding:0;">
+        <div style="background:linear-gradient(135deg,#0fb3bf,#007991);padding:18px;border-radius:12px;height:100%;color:#001517">
+          <h4 style="margin:0 0 8px">Approach</h4>
+          <ol style="margin:0;color:#042022">
+            <li>User interviews & shadowing</li>
+            <li>Low-fi prototypes & usability testing</li>
+            <li>Iterative release, analytics-driven prioritization</li>
+          </ol>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" aria-labelledby="team-title">
+    <h2 class="section" id="team-title">Team</h2>
+    <div class="team-grid">
+      <div class="member" aria-labelledby="m1">
+        <div class="avatar" aria-hidden="true">MG</div>
+        <h4 id="m1">Maya Gomez</h4>
+        <p class="small">Founder & CEO — Strategy</p>
+      </div>
+
+      <div class="member" aria-labelledby="m2">
+        <div class="avatar" style="background:linear-gradient(180deg,#ff7e5f,#feb47b)">AL</div>
+        <h4 id="m2">Arun Lal</h4>
+        <p class="small">Head of Engineering</p>
+      </div>
+
+      <div class="member" aria-labelledby="m3">
+        <div class="avatar" style="background:linear-gradient(180deg,#8a2be2,#4b6bff)">JS</div>
+        <h4 id="m3">Jin Soo</h4>
+        <p class="small">Design Lead</p>
+      </div>
+
+      <div class="member" aria-labelledby="m4">
+        <div class="avatar" style="background:linear-gradient(180deg,#00b09b,#96c93d)">RK</div>
+        <h4 id="m4">Rita Khan</h4>
+        <p class="small">Growth & Analytics</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section aria-labelledby="test-title">
+    <h2 class="section" id="test-title">Testimonials</h2>
+    <div class="carousel" aria-roledescription="carousel" aria-label="Client testimonials">
+      <div class="carousel-track" id="carouselTrack" style="transform:translateX(0);">
+        <div class="test"><strong>“Acme understood our problem quickly and shipped a usable prototype in weeks.”</strong><div class="small" style="margin-top:8px">— CEO, RetailTech</div></div>
+        <div class="test"><strong>“They helped us establish a repeatable growth playbook.”</strong><div class="small" style="margin-top:8px">— Head of Growth, Fintech</div></div>
+        <div class="test"><strong>“Engineering quality and documentation are top-tier.”</strong><div class="small" style="margin-top:8px">— CTO, Logistics</div></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="filter-btn" id="prevTest">Prev</button>
+      <button class="filter-btn" id="nextTest">Next</button>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" aria-labelledby="contact-title">
+    <h2 class="section" id="contact-title">Contact</h2>
+    <div class="contact-grid">
+      <form id="contactForm" onsubmit="return false;" aria-label="Contact form">
+        <div class="form-row"><label for="name">Full name</label><input id="name" name="name" type="text" required placeholder="Jane Doe" /></div>
+        <div class="form-row"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="you@example.com" /></div>
+        <div class="form-row"><label for="company">Company (optional)</label><input id="company" name="company" type="text" placeholder="Acme Corp." /></div>
+        <div class="form-row"><label for="message">Message</label><textarea id="message" name="message" rows="6" required placeholder="Tell us about your project"></textarea></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn primary" id="sendBtn">Send message</button>
+          <div id="formStatus" class="small" style="color:var(--muted)">We reply within 48 hours.</div>
+        </div>
+      </form>
+
+      <aside style="padding:14px;border-radius:12px;background:var(--panel)">
+        <h4 style="margin-top:0">Contact details</h4>
+        <p class="small">Email: <a href="mailto:hello@acme.example" style="color:var(--accent)">hello@acme.example</a></p>
+        <p class="small">Phone: <a href="tel:+1234567890" style="color:var(--accent)">+1 (234) 567-890</a></p>
+        <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:12px 0;border-radius:2px">
+        <p class="small">Office locations: Remote-first (US / EU / APAC)</p>
+        <p class="small">Availability: Project-based & long-term partnerships</p>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <div>© <span id="year"></span> Acme Consulting — All rights reserved</div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <a href="#top" class="small">Back to top</a>
+      <a href="#portfolio" class="small">Portfolio</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* === Utility helpers === */
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+/* Year */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* THEME toggle (visual only) */
+const themeBtn = $('#themeToggle');
+let accent = 0;
+themeBtn.addEventListener('click', () => {
+  // rotate a subtle accent palette by adjusting CSS variable
+  accent = (accent + 1) % 4;
+  const palettes = [
+    ['#00bcd4','#007991'],
+    ['#ff7e5f','#feb47b'],
+    ['#8a2be2','#4b6bff'],
+    ['#3a1c71','#d76d77']
+  ];
+  const p = palettes[accent];
+  document.documentElement.style.setProperty('--accent', p[0]);
+  themeBtn.animate([{transform:'rotate(0deg)'},{transform:'rotate(360deg)'}],{duration:450});
+});
+
+/* Resume download - generate a simple PDF-like plain text file (client-side) */
+$('#downloadResume').addEventListener('click', () => {
+  const resumeText = [
+    'Acme Consulting — Resume',
+    '',
+    'Maya Gomez — Founder & CEO',
+    'Email: hello@acme.example',
+    '',
+    'Summary: Strategy-led product consultancy...',
+    '',
+    'Experience:',
+    '- Product strategy, design systems, engineering leadership',
+    '',
+    'Selected projects: AlphaPay, Nimbus Dashboard, FleetOps, MarketLift, Atlas Maps',
+    '',
+    'Contact: hello@acme.example',
+  ].join('\\n');
+
+  const blob = new Blob([resumeText], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'AcmeConsulting_Resume.txt';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),4000);
+});
+
+/* Portfolio filtering & modal */
+const filters = $$('.filter-btn');
+const projects = $$('.proj');
+const grid = $('#portfolioGrid');
+filters.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filters.forEach(b => {b.classList.remove('active');b.setAttribute('aria-selected','false')});
+    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+    const f = btn.getAttribute('data-filter');
+    projects.forEach(p => {
+      if(f==='all' || (p.dataset.tags && p.dataset.tags.split(' ').includes(f))){
+        p.style.display = ''; // show
+      } else p.style.display = 'none';
+    });
+  });
+});
+
+/* Project click -> open modal */
+const modal = $('#modal');
+const modalTitle = $('#modalTitle');
+const modalDesc = $('#modalDesc');
+const modalRole = $('#modalRole');
+const modalOutcome = $('#modalOutcome');
+const modalDeliverables = $('#modalDeliverables');
+
+function openProject(el){
+  modal.setAttribute('aria-hidden','false'); modal.classList.add('open');
+  const title = el.dataset.title || 'Project';
+  const desc = el.dataset.desc || '';
+  const role = el.dataset.tags || 'Consulting';
+  modalTitle.textContent = title;
+  modalDesc.textContent = desc;
+  modalRole.textContent = role;
+  modalOutcome.textContent = 'See results section';
+  modalDeliverables.innerHTML = '<li>Research & interviews</li><li>Prototype & testing</li><li>Implementation support</li>';
+  // focus trap: move focus into modal
+  modal.querySelector('.panel').focus();
+}
+projects.forEach(p=>{
+  p.addEventListener('click',()=> openProject(p));
+  p.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' ') openProject(p);
+  });
+});
+$('#modalClose').addEventListener('click', ()=> {modal.setAttribute('aria-hidden','true'); modal.classList.remove('open');});
+modal.addEventListener('click', (ev)=>{ if(ev.target===modal) { modal.setAttribute('aria-hidden','true'); modal.classList.remove('open'); }});
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ modal.setAttribute('aria-hidden','true'); modal.classList.remove('open'); }});
+
+/* Testimonials carousel */
+const track = $('#carouselTrack');
+let testIndex = 0;
+const tests = $$('.test');
+const visible = Math.min(1, tests.length); // one at a time
+function updateCarousel(){
+  const w = tests[0].getBoundingClientRect().width + 18; // card + gap
+  track.style.transform = `translateX(${ -testIndex * w }px)`;
+}
+window.addEventListener('resize', updateCarousel);
+$('#nextTest').addEventListener('click', ()=>{ testIndex = Math.min(testIndex + 1, tests.length - 1); updateCarousel();});
+$('#prevTest').addEventListener('click', ()=>{ testIndex = Math.max(testIndex - 1, 0); updateCarousel();});
+
+/* Simple contact form handling (client-side only) */
+const contactForm = $('#contactForm');
+const formStatus = $('#formStatus');
+$('#sendBtn').addEventListener('click', ()=>{
+  const name = $('#name').value.trim();
+  const email = $('#email').value.trim();
+  const message = $('#message').value.trim();
+  if(!name || !email || !message){
+    formStatus.textContent = 'Please fill required fields.';
+    formStatus.style.color = '#ffb86b';
+    return;
+  }
+  // naive email pattern check
+  if(!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email)){
+    formStatus.textContent = 'Please enter a valid email.';
+    formStatus.style.color = '#ffb86b';
+    return;
+  }
+  // simulate sending
+  formStatus.textContent = 'Sending...';
+  formStatus.style.color = 'var(--muted)';
+  setTimeout(()=>{
+    formStatus.textContent = 'Message sent — thank you! We will contact you within 48 hours.';
+    formStatus.style.color = '#8ef3e8';
+    contactForm.reset();
+  }, 900);
+});
+
+/* Demo button opens contact with prefill */
+$('#demoBtn').addEventListener('click', ()=>{
+  $('#message').value = "I'd like a demo of your services. Please share availability.";
+  location.hash = '#contact';
+  $('#name').focus();
+});
+
+/* Smooth scroll for internal links */
+$$('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', (e)=>{
+    const href = a.getAttribute('href');
+    if(href.length > 1) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+});
+
+/* Accessibility improvement: keyboard nav for filter buttons */
+filters.forEach((btn, i) => {
+  btn.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowRight') filters[(i+1)%filters.length].focus();
+    if(e.key === 'ArrowLeft') filters[(i-1+filters.length)%filters.length].focus();
+  });
+});
+
+/* small auto-play for carousel (pauses on hover) */
+let carouselTimer = setInterval(()=>{ testIndex = (testIndex+1) % tests.length; updateCarousel(); }, 5000);
+const carouselEl = document.querySelector('.carousel');
+carouselEl.addEventListener('mouseenter', ()=> clearInterval(carouselTimer));
+carouselEl.addEventListener('mouseleave', ()=> { clearInterval(carouselTimer); carouselTimer = setInterval(()=>{ testIndex = (testIndex+1) % tests.length; updateCarousel(); }, 5000); });
+
+/* initial layout adjustments */
+setTimeout(updateCarousel,100);
+</script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sining Meraki | Dreamy Creations</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    color: #222;
+    background: linear-gradient(135deg, #f9e0ff, #d1e8ff, #ffe8e8, #e3ffd1);
+    background-size: 400% 400%;
+    animation: dreamyShift 10s ease infinite;
+    transition: background 0.6s, color 0.6s;
+    overflow-x: hidden;
+  }
+
+  @keyframes dreamyShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  header {
+    text-align: center;
+    padding: 60px 20px 30px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    font-size: 2.5em;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #222;
+    position: relative;
+  }
+
+  header::after {
+    content: "Handcrafted with Heart ♡";
+    display: block;
+    font-size: 0.6em;
+    color: #666;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .toggle-theme {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.4);
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+    z-index: 10;
+    transition: 0.3s;
+  }
+
+  .toggle-theme:hover {
+    transform: scale(1.1);
+  }
+
+  /* Intro Section */
+  .container {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+    animation: fadeIn 1.2s ease both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .intro h2 {
+    font-weight: 600;
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+
+  .intro p {
+    color: #333;
+    font-size: 1.1em;
+    max-width: 700px;
+    margin: 0 auto 40px;
+  }
+
+  /* Product Cards */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 10px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.6);
+    border-radius: 20px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    backdrop-filter: blur(8px);
+    position: relative;
+  }
+
+  .card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  }
+
+  .card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+  }
+
+  .card-content {
+    padding: 25px 20px 35px;
+  }
+
+  .card h3 {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .card p {
+    color: #555;
+    font-size: 0.95em;
+    margin-bottom: 25px;
+  }
+
+  .card a {
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #c47eff, #85c9ff);
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(132, 199, 255, 0.4);
+  }
+
+  .card a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(132, 199, 255, 0.6);
+    background: linear-gradient(135deg, #85c9ff, #c47eff);
+  }
+
+  /* Social Links */
+  .socials {
+    margin-top: 70px;
+    text-align: center;
+  }
+
+  .socials h3 {
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .socials a {
+    display: inline-block;
+    margin: 0 12px;
+    background: linear-gradient(135deg, #c47eff, #85c9ff);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(132, 199, 255, 0.4);
+  }
+
+  .socials a:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #85c9ff, #c47eff);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 0.95em;
+    animation: fadeInOut 2s ease;
+    z-index: 20;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 10px); }
+    10% { opacity: 1; transform: translate(-50%, 0); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -10px); }
+  }
+
+  /* Light Mode */
+  body.light-mode {
+    color: #111;
+    background: linear-gradient(135deg, #fff0f5, #e0f7ff, #f9f9e3, #ffe3e3);
+    background-size: 400% 400%;
+    animation: dreamyShift 25s ease infinite;
+  }
+
+  body.light-mode header {
+    background: rgba(255,255,255,0.4);
+    color: #000;
+  }
+
+  body.light-mode .toggle-theme {
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+  }
+
+  footer {
+    background-color: #111;
+    color: #fff;
+    text-align: center;
+    padding: 40px 0;
+    font-size: 0.9em;
+    margin-top: 60px;
+  }
+
+  footer a {
+    color: #9fdcff;
+    text-decoration: none;
+    margin: 0.5px;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+</style>
+</head>
+<body>
+
+<header>Sining Meraki</header>
+<button class="toggle-theme" onclick="toggleTheme()">☀️</button>
+
+<div class="container">
+  <div class="intro">
+    <h2>Welcome to Our Dreamy Collection ✨</h2>
+    <p>Pastel-inspired fashion and lifestyle products that capture calm, creativity, and handcrafted charm.</p>
+  </div>
+
+  <div class="products">
+    <div class="card">
+      <img src="project1.jpeg" alt="Charm">
+      <div class="card-content">
+        <h3>Wearable Charms</h3>
+        <p>Custom-made charms for tumblers, bags, or wallets — lightweight, durable, and fully customizable!</p>
+        <a href="#">View Product</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="project2.jpeg" alt="Bracelets">
+      <div class="card-content">
+        <h3>Bracelets</h3>
+        <p>Handcrafted beaded bracelets — soft tones and unique patterns designed to reflect your personality.</p>
+        <a href="#">View Product</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="project3.jpeg" alt="Charms">
+      <div class="card-content">
+        <h3>Single-Line Charms</h3>
+        <p>Elegant, minimalist line charms that add a subtle dreamy accent to your everyday accessories.</p>
+        <a href="#">View Product</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="socials">
+    <h3>Connect With Us</h3>
+    <a href="https://facebook.com/" target="_blank">Facebook</a>
+    <a href="https://instagram.com/" target="_blank">Instagram</a>
+  </div>
+</div>
+
+<footer>
+  <p>Connect with us:</p>
+  <a href="https://www.facebook.com/profile.php?id=61572610372146" target="_blank">🌐 Facebook</a> |
+  <a href="https://shopee.ph/shop/359281701" target="_blank">🛒 Shopee</a>
+  <p style="margin-top:10px;">© 2025 Sining Meraki. All rights reserved.</p>
+</footer>
+
+<script>
+function toggleTheme() {
+  document.body.classList.toggle("light-mode");
+  showToast(document.body.classList.contains("light-mode") ? "Light Mode Enabled 🌞" : "Dream Mode Enabled 🌙");
+}
+
+function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
+}
+</script>
+</body>
+</html>
